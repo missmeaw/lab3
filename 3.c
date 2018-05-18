@@ -3,6 +3,7 @@
 #include <errno.h>
 #include <unistd.h>
 #include <string.h>
+#include <dirent.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 
@@ -24,7 +25,7 @@ void main (void)
 			words[i++] = ptr;
                         ptr = strtok(NULL, sep);
 		}
-                if (i>1 && strcmp(words[i-1], "x") == 0) {
+                if (i > 1 && strcmp(words[i-1], "x") == 0) {
                         mode = 0;
                         words[i-1] = NULL;
                 }
@@ -32,13 +33,13 @@ void main (void)
                 if (strcmp(words[0], "break") == 0)
                         exit(0);
                 if (strcmp(words[0], "cd") == 0) {
-                        chir(words[1]);
+                        chdir(words[1]);
                         continue;
                 }
-                switch(pid=fork()) {
+                switch(pid = fork()) {
                 case -1:
                         write(1, "Error make process\n", 19); /* произошла ошибка */
-                        exit(1); /*выход из родительского процесса*/
+                        exit(11); /*выход из родительского процесса*/
                 case 0: //дочерний процесс, отдельный поток
                         printf(" CHILD: My PID is-- %d\n", getpid());
                         printf(" CHILD: My parent PID -- %d\n", getppid());
