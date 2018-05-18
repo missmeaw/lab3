@@ -35,9 +35,6 @@ void main (void)
                         chir(words[1]);
                         continue;
                 }
-                if (strcmp(words[0], "kill") == 0){
-                    kill(words[2], 1);
-                }
                 switch(pid=fork()) {
                 case -1:
                         write(1, "Error make process\n", 19); /* произошла ошибка */
