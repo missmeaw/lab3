@@ -17,7 +17,7 @@ void main(void)
 	char proc[100];
 	char sep[] = " ";
 	size_t len = 0;
-	int n;
+	int n, flag = 0;
 
 	while (1) {
 		int i = 0;
@@ -25,7 +25,14 @@ void main(void)
 
 		write(1, "Please, enter name of a new process\n", 36);
 		n = read(0, proc, 100);
+		if (proc[0] == '\n')
+			continue;		
 		proc[n-1] = '\0';
+		if (proc[n-2] == '&') {
+			proc[n-2] = '\0';
+			proc[n-3] = '\0';
+			flag = 1;
+		}
 		//getline(&proc, &len, stdin);
 		char *ptr = strtok(proc, sep);
 		while (ptr != NULL) {
@@ -68,6 +75,8 @@ void main(void)
 			printf("Parent: PID = %d\n", getpid());
 			printf("Parent: Child PID: %d\n", pid);
 			printf("Parent: Waiting end child process.\n");
+			if (flag) 
+				continue;
 			if (mode) {
 				child_pid = pid;
 				(void) signal(SIGINT, SIG_IGN);
