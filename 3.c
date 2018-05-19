@@ -16,14 +16,18 @@ void main(void)
 	char buf[1024];
 	char proc[100];
 	char sep[] = " ";
+	size_t len = 0;
+	int n;
 
 	while (1) {
 		int i = 0;
 		int mode = 1;
-		char *ptr = strtok(proc, sep);
 
-		write(1, "Please, enter name of a new process\n", 38);
-		gets(proc);
+		write(1, "Please, enter name of a new process\n", 36);
+		n = read(0, proc, 100);
+		proc[n-1] = '\0';
+		//getline(&proc, &len, stdin);
+		char *ptr = strtok(proc, sep);
 		while (ptr != NULL) {
 			words[i++] = ptr;
 			ptr = strtok(NULL, sep);
